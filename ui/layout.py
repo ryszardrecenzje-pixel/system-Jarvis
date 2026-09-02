@@ -70,8 +70,36 @@ def render_github_mode():
 
 
 def render_system_mode():
-    st.write("Tryb systemowy (rozbudujemy później)")
+    st.write("Tryb systemowy")
+
+    action = st.selectbox("Wybierz akcję:", [
+        "Pokaż katalog",
+        "Stwórz folder",
+        "Usuń plik",
+        "Odczytaj plik",
+        "Zapisz plik"
+    ])
+
+    path = st.text_input("Ścieżka:")
+
+    content = ""
+    if action == "Zapisz plik":
+        content = st.text_area("Zawartość pliku:")
+
+    if st.button("Wykonaj"):
+        if action == "Pokaż katalog":
+            return f"pokaż katalog {path}"
+        if action == "Stwórz folder":
+            return f"stwórz folder {path}"
+        if action == "Usuń plik":
+            return f"usuń plik {path}"
+        if action == "Odczytaj plik":
+            return f"odczytaj plik {path}"
+        if action == "Zapisz plik":
+            return f"zapisz plik {path} {content}"
+
     return None
+
 
 
 def render_memory_mode():
