@@ -86,5 +86,11 @@ def render_memory_mode():
 
 
 def render_voice_mode():
-    st.write("Tryb głosowy (dodamy w kolejnym kroku)")
+    st.write("Tryb głosowy Jarvisa")
+
+    if st.button("Nasłuchuj"):
+        return "__voice_listen__"
+
+    st.write("Jarvis będzie mówił odpowiedzi automatycznie.")
     return None
+
