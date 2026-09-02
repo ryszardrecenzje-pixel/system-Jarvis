@@ -34,13 +34,31 @@ def render_docs_mode():
     return None
 
 
+def render_workflow_mode():
+    st.write("Inteligentny Workflow Jarvisa")
+
+    action = st.selectbox("Wybierz akcję:", [
+        "Analiza projektu",
+        "Generuj workflow"
+    ])
+
+    user_input = st.text_area("Polecenie użytkownika:")
+
+    if st.button("Wykonaj"):
+        if action == "Analiza projektu":
+            return "analiza projektu"
+        if action == "Generuj workflow":
+            return f"workflow {user_input}"
+
+    return None
+
+
 def render_main_ui():
     st.sidebar.header("Tryby Jarvisa")
 
     mode = st.sidebar.radio(
         "Wybierz tryb:",
-        ["Chat", "Kodowanie", "Streamlit", "GitHub", "System", "Pamięć", "Głos", "Analiza danych", "Dokumentacja"
-]
+        ["Chat", "Workflow", "Kodowanie", "Streamlit", "GitHub", "System", "Pamięć", "Głos", "Analiza danych", "Dokumentacja"]
 
     )
 
@@ -73,7 +91,10 @@ def render_main_ui():
     if mode == "Dokumentacja":
         return render_docs_mode()
     
-        
+    if mode == "Workflow":
+        return render_workflow_mode()
+
+    
 
     return None
 def render_data_mode():
