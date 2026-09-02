@@ -4,6 +4,12 @@ from ui.layout import render_main_ui
 from core.ai import handle_user_input
 from voice.stt import listen_to_microphone
 from voice.tts import speak
+import os
+
+if os.getenv("STREAMLIT_RUNTIME"):
+    print("Uruchamiam wersję chmurową — bez PyAudio")
+else:
+    print("Uruchamiam wersję lokalną — pełny Jarvis z audio")
 
 
 def main():
