@@ -5,6 +5,7 @@ from core.memory import log_interaction, save_memory, load_memory
 from core.planner import analyze_intent, plan_steps
 from actions.data_analysis import load_csv, load_json, load_excel, describe_dataframe, plot_column
 from actions.streamlit_apps import list_apps, create_app, modify_app, generate_dashboard
+from actions.documentation import generate_readme, document_repo_structure, generate_technical_report, workflow_suggestion
 
 
 
@@ -83,6 +84,18 @@ def handle_user_input(user_input: str) -> str:
                 results.append(generate_dashboard(step["name"], df))
             else:
                 results.append("Najpierw wczytaj dane, aby wygenerować dashboard.")
+
+        elif action == "generate_readme":
+            results.append(generate_readme(step["app_name"], step["description"]))
+        
+        elif action == "document_repo":
+            results.append(document_repo_structure())
+        
+        elif action == "technical_report":
+            results.append(generate_technical_report(step["app_name"]))
+        
+        elif action == "workflow_suggestion":
+            results.append(workflow_suggestion(step["input"]))
 
     
 
