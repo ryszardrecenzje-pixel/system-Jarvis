@@ -36,6 +36,21 @@ def analyze_intent(user_input: str) -> str:
     
     if "zapisz plik" in user_input:
         return "write_file"
+        if "wczytaj csv" in user_input:
+    return "load_csv"
+
+    if "wczytaj json" in user_input:
+        return "load_json"
+    
+    if "wczytaj excel" in user_input:
+        return "load_excel"
+    
+    if "statystyki" in user_input:
+        return "describe_data"
+    
+    if "wykres" in user_input:
+        return "plot_column"
+
 
     
     return "unknown"
@@ -98,6 +113,26 @@ def plan_steps(intent: str, user_input: str) -> List[Dict]:
         path = parts[0]
         content = parts[1] if len(parts) > 1 else ""
         return [{"action": "write_file", "path": path, "content": content}]
+        if intent == "load_csv":
+    path = user_input.replace("wczytaj csv", "").strip()
+    return [{"action": "load_csv", "path": path}]
+
+    if intent == "load_json":
+        path = user_input.replace("wczytaj json", "").strip()
+        return [{"action": "load_json", "path": path}]
+    
+    if intent == "load_excel":
+        path = user_input.replace("wczytaj excel", "").strip()
+        return [{"action": "load_excel", "path": path}]
+    
+    if intent == "describe_data":
+        return [{"action": "describe_data"}]
+    
+    if intent == "plot_column":
+        parts = user_input.replace("wykres", "").strip().split(" ")
+        column = parts[-1]
+        return [{"action": "plot_column", "column": column}]
+
 
 
     return [{"action": "unknown"}]
