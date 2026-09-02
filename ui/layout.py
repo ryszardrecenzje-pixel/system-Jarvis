@@ -1,12 +1,46 @@
 # ui/layout.py
 import streamlit as st
 
+def render_docs_mode():
+    st.write("Moduł dokumentacji")
+
+    action = st.selectbox("Wybierz akcję:", [
+        "Generuj README",
+        "Dokumentacja repozytorium",
+        "Raport techniczny aplikacji",
+        "Sugestia workflow"
+    ])
+
+    app_name = ""
+    description = ""
+
+    if action == "Generuj README":
+        app_name = st.text_input("Nazwa aplikacji:")
+        description = st.text_area("Opis aplikacji:")
+
+    if action == "Raport techniczny aplikacji":
+        app_name = st.text_input("Nazwa aplikacji:")
+
+    if st.button("Wykonaj"):
+        if action == "Generuj README":
+            return f"readme {app_name} {description}"
+        if action == "Dokumentacja repozytorium":
+            return "struktura repo"
+        if action == "Raport techniczny aplikacji":
+            return f"raport techniczny {app_name}"
+        if action == "Sugestia workflow":
+            return "workflow"
+
+    return None
+
+
 def render_main_ui():
     st.sidebar.header("Tryby Jarvisa")
 
     mode = st.sidebar.radio(
         "Wybierz tryb:",
-        ["Chat", "Kodowanie", "Streamlit", "GitHub", "System", "Pamięć", "Głos", "Analiza danych"]
+        ["Chat", "Kodowanie", "Streamlit", "GitHub", "System", "Pamięć", "Głos", "Analiza danych", "Dokumentacja"
+]
 
     )
 
@@ -35,6 +69,10 @@ def render_main_ui():
    
     if mode == "Analiza danych":
         return render_data_mode()
+
+    if mode == "Dokumentacja":
+        return render_docs_mode()
+    
         
 
     return None
