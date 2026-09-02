@@ -4,6 +4,7 @@ from actions.github import git_commit, git_push
 from core.memory import log_interaction, save_memory, load_memory
 from core.planner import analyze_intent, plan_steps
 from actions.data_analysis import load_csv, load_json, load_excel, describe_dataframe, plot_column
+from actions.streamlit_apps import list_apps, create_app, modify_app, generate_dashboard
 
 
 
@@ -65,9 +66,25 @@ def handle_user_input(user_input: str) -> str:
         elif action == "plot_column":
             if "df" in locals():
                 results.append(plot_column(df, step["column"]))
-    else:
-        results.append("Najpierw wczytaj dane.")
-            
+            else:
+            results.append("Najpierw wczytaj dane.")
+
+        elif action == "list_apps":
+            results.append(list_apps())
+        
+        elif action == "create_app":
+            results.append(create_app(step["name"]))
+        
+        elif action == "modify_app":
+            results.append(modify_app(step["name"], step["new_code"]))
+        
+        elif action == "generate_dashboard":
+            if "df" in locals():
+                results.append(generate_dashboard(step["name"], df))
+            else:
+                results.append("Najpierw wczytaj dane, aby wygenerować dashboard.")
+
+    
 
     # 4. Logowanie
     final_response = "\n".join(results)
