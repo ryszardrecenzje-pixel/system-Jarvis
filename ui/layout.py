@@ -6,7 +6,8 @@ def render_main_ui():
 
     mode = st.sidebar.radio(
         "Wybierz tryb:",
-        ["Chat", "Kodowanie", "Streamlit", "GitHub", "System", "Pamięć", "Głos"]
+        ["Chat", "Kodowanie", "Streamlit", "GitHub", "System", "Pamięć", "Głos", "Analiza danych"]
+
     )
 
     st.subheader(f"Tryb: {mode}")
@@ -31,6 +32,40 @@ def render_main_ui():
 
     if mode == "Głos":
         return render_voice_mode()
+   
+    if mode == "Analiza danych":
+        return render_data_mode()
+        
+
+    return None
+def render_data_mode():
+    st.write("Analiza danych")
+
+    action = st.selectbox("Wybierz akcję:", [
+        "Wczytaj CSV",
+        "Wczytaj JSON",
+        "Wczytaj Excel",
+        "Statystyki danych",
+        "Wykres kolumny"
+    ])
+
+    path = st.text_input("Ścieżka do pliku:")
+
+    column = ""
+    if action == "Wykres kolumny":
+        column = st.text_input("Nazwa kolumny:")
+
+    if st.button("Wykonaj"):
+        if action == "Wczytaj CSV":
+            return f"wczytaj csv {path}"
+        if action == "Wczytaj JSON":
+            return f"wczytaj json {path}"
+        if action == "Wczytaj Excel":
+            return f"wczytaj excel {path}"
+        if action == "Statystyki danych":
+            return "statystyki"
+        if action == "Wykres kolumny":
+            return f"wykres {column}"
 
     return None
 
