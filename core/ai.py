@@ -3,6 +3,8 @@ from actions.codegen import create_python_file, append_to_file, generate_streaml
 from actions.github import git_commit, git_push
 from core.memory import log_interaction, save_memory, load_memory
 from core.planner import analyze_intent, plan_steps
+from actions.data_analysis import load_csv, load_json, load_excel, describe_dataframe, plot_column
+
 
 
 def handle_user_input(user_input: str) -> str:
@@ -42,9 +44,30 @@ def handle_user_input(user_input: str) -> str:
         elif action == "load_memory":
             value = load_memory(step["key"])
             results.append(f"✔ Pamięć: {value}")
-
-        else:
-            results.append("❓ Nie rozumiem tego polecenia.")
+        elif action == "load_csv":
+            df = load_csv(step["path"])
+            results.append(df)
+        
+        elif action == "load_json":
+            df = load_json(step["path"])
+            results.append(df)
+        
+        elif action == "load_excel":
+            df = load_excel(step["path"])
+            results.append(df)
+        
+        elif action == "describe_data":
+            if "df" in locals():
+                results.append(describe_dataframe(df))
+            else:
+                results.append("Najpierw wczytaj dane.")
+        
+        elif action == "plot_column":
+            if "df" in locals():
+                results.append(plot_column(df, step["column"]))
+    else:
+        results.append("Najpierw wczytaj dane.")
+            
 
     # 4. Logowanie
     final_response = "\n".join(results)
