@@ -7,20 +7,51 @@ from core.planner import analyze_intent, plan_steps
 
 def handle_user_input(user_input: str) -> str:
     original_input = user_input
-    user_input = user_input.lower()
 
-    # Zapamiętywanie
-    if user_input.startswith("zapamiętaj"):
-        # przykład: "zapamiętaj projekt1 to jest opis projektu"
-        parts = user_input.replace("zapamiętaj", "").strip().split(" ", 1)
-        if len(parts) == 2:
-            key, value = parts
-            response = save_memory(key, value)
-            log_interaction(original_input, response)
-            return response
-        response = "Podaj klucz i wartość, np.: zapamiętaj projekt1 opis projektu."
-        log_interaction(original_input, response)
-        return response
+    # 1. Analiza intencji
+    intent = analyze_intent(user_input)
+
+    # 2. Tworzenie planu
+    steps = plan_steps(intent, user_input)
+
+    # 3. Wykonanie kroków
+    results = []
+    for step in steps:
+        action = step["action"]
+
+        if action == "generate_streamlit_app":
+            filename, content = generate_streamlit_app(step["name"])
+            results.append(f"✔ Utworzono aplikację Streamlit: {filename}")
+
+        elif action == "create_python_file":
+            result = create_python_file(step["filename"], step["content"])
+            results.append(f"✔ {result}")
+
+        elif action == "git_commit":
+            result = git_commit(step["message"])
+            results.append(f"✔ Commit: {result}")
+
+        elif action == "git_push":
+            result = git_push()
+            results.append(f"✔ Push: {result}")
+
+        elif action == "save_memory":
+            result = save_memory(step["key"], step["value"])
+            results.append(f"✔ {result}")
+
+        elif action == "load_memory":
+            value = load_memory(step["key"])
+            results.append(f"✔ Pamięć: {value}")
+
+        else:
+            results.append("❓ Nie rozumiem tego polecenia.")
+
+    # 4. Logowanie
+    final_response = "\n".join(results)
+    log_interaction(original_input, final_response)
+
+    return final_response
+
 
     # Przypominanie
     if user_input.startswith("przypomnij"):
