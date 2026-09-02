@@ -23,7 +23,7 @@ def analyze_intent(user_input: str) -> str:
         return "load_memory"
 
     if "pokaż katalog" in user_input:
-    return "list_directory"
+        return "list_directory"
 
     if "stwórz folder" in user_input:
         return "create_folder"
@@ -38,7 +38,7 @@ def analyze_intent(user_input: str) -> str:
         return "write_file"
         
     if "wczytaj csv" in user_input:
-    return "load_csv"
+        return "load_csv"
 
     if "wczytaj json" in user_input:
         return "load_json"
@@ -63,6 +63,18 @@ def analyze_intent(user_input: str) -> str:
     
     if "dashboard" in user_input:
         return "generate_dashboard"
+        
+    if "readme" in user_input:
+        return "generate_readme"
+    
+    if "struktura repo" in user_input:
+        return "document_repo"
+    
+    if "raport techniczny" in user_input:
+        return "technical_report"
+    
+    if "workflow" in user_input:
+        return "workflow_suggestion"
 
     
     return "unknown"
@@ -161,6 +173,23 @@ def plan_steps(intent: str, user_input: str) -> List[Dict]:
     if intent == "generate_dashboard":
         name = user_input.replace("dashboard", "").strip()
         return [{"action": "generate_dashboard", "name": name}]
+
+    if intent == "generate_readme":
+        parts = user_input.replace("readme", "").strip().split(" ", 1)
+        app_name = parts[0]
+        description = parts[1] if len(parts) > 1 else "Aplikacja wygenerowana przez Jarvisa."
+        return [{"action": "generate_readme", "app_name": app_name, "description": description}]
+    
+    if intent == "document_repo":
+        return [{"action": "document_repo"}]
+    
+    if intent == "technical_report":
+        app_name = user_input.replace("raport techniczny", "").strip()
+        return [{"action": "technical_report", "app_name": app_name}]
+    
+    if intent == "workflow_suggestion":
+        return [{"action": "workflow_suggestion", "input": user_input}]
+    
     
 
 
