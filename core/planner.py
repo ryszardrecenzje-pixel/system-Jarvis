@@ -36,7 +36,8 @@ def analyze_intent(user_input: str) -> str:
     
     if "zapisz plik" in user_input:
         return "write_file"
-        if "wczytaj csv" in user_input:
+        
+    if "wczytaj csv" in user_input:
     return "load_csv"
 
     if "wczytaj json" in user_input:
@@ -51,6 +52,17 @@ def analyze_intent(user_input: str) -> str:
     if "wykres" in user_input:
         return "plot_column"
 
+    if "lista aplikacji" in user_input:
+        return "list_apps"
+    
+    if "stwórz aplikację" in user_input:
+        return "create_app"
+    
+    if "modyfikuj aplikację" in user_input:
+        return "modify_app"
+    
+    if "dashboard" in user_input:
+        return "generate_dashboard"
 
     
     return "unknown"
@@ -93,8 +105,8 @@ def plan_steps(intent: str, user_input: str) -> List[Dict]:
         return steps
 
     if intent == "list_directory":
-    path = user_input.replace("pokaż katalog", "").strip()
-    return [{"action": "list_directory", "path": path}]
+        path = user_input.replace("pokaż katalog", "").strip()
+        return [{"action": "list_directory", "path": path}]
 
     if intent == "create_folder":
         path = user_input.replace("stwórz folder", "").strip()
@@ -113,9 +125,9 @@ def plan_steps(intent: str, user_input: str) -> List[Dict]:
         path = parts[0]
         content = parts[1] if len(parts) > 1 else ""
         return [{"action": "write_file", "path": path, "content": content}]
-        if intent == "load_csv":
-    path = user_input.replace("wczytaj csv", "").strip()
-    return [{"action": "load_csv", "path": path}]
+    if intent == "load_csv":
+        path = user_input.replace("wczytaj csv", "").strip()
+        return [{"action": "load_csv", "path": path}]
 
     if intent == "load_json":
         path = user_input.replace("wczytaj json", "").strip()
@@ -133,6 +145,23 @@ def plan_steps(intent: str, user_input: str) -> List[Dict]:
         column = parts[-1]
         return [{"action": "plot_column", "column": column}]
 
+    if intent == "list_apps":
+        return [{"action": "list_apps"}]
+    
+    if intent == "create_app":
+        name = user_input.replace("stwórz aplikację", "").strip()
+        return [{"action": "create_app", "name": name}]
+    
+    if intent == "modify_app":
+        parts = user_input.replace("modyfikuj aplikację", "").strip().split(" ", 1)
+        name = parts[0]
+        new_code = parts[1] if len(parts) > 1 else ""
+        return [{"action": "modify_app", "name": name, "new_code": new_code}]
+    
+    if intent == "generate_dashboard":
+        name = user_input.replace("dashboard", "").strip()
+        return [{"action": "generate_dashboard", "name": name}]
+    
 
 
     return [{"action": "unknown"}]
