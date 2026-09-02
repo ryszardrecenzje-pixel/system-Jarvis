@@ -76,6 +76,12 @@ def analyze_intent(user_input: str) -> str:
     if "workflow" in user_input:
         return "workflow_suggestion"
 
+    if "analiza projektu" in user_input:
+        return "analyze_project"
+
+    if "workflow" in user_input:
+        return "build_workflow"
+
     
     return "unknown"
 
@@ -190,7 +196,12 @@ def plan_steps(intent: str, user_input: str) -> List[Dict]:
     if intent == "workflow_suggestion":
         return [{"action": "workflow_suggestion", "input": user_input}]
     
-    
+    if intent == "analyze_project":
+        return [{"action": "analyze_project"}]
+
+    if intent == "build_workflow":
+        return [{"action": "build_workflow", "input": user_input}]
+
 
 
     return [{"action": "unknown"}]
