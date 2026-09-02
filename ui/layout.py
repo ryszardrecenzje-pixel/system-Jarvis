@@ -88,11 +88,33 @@ def render_code_mode():
 
 
 def render_streamlit_mode():
-    st.write("Tworzenie aplikacji Streamlit")
+    st.write("Zarządzanie aplikacjami Streamlit")
+
+    action = st.selectbox("Wybierz akcję:", [
+        "Lista aplikacji",
+        "Stwórz aplikację",
+        "Modyfikuj aplikację",
+        "Generuj dashboard"
+    ])
+
     name = st.text_input("Nazwa aplikacji:")
-    if st.button("Generuj aplikację"):
-        return f"stwórz aplikację streamlit {name}"
+
+    new_code = ""
+    if action == "Modyfikuj aplikację":
+        new_code = st.text_area("Nowy kod aplikacji:")
+
+    if st.button("Wykonaj"):
+        if action == "Lista aplikacji":
+            return "lista aplikacji"
+        if action == "Stwórz aplikację":
+            return f"stwórz aplikację {name}"
+        if action == "Modyfikuj aplikację":
+            return f"modyfikuj aplikację {name} {new_code}"
+        if action == "Generuj dashboard":
+            return f"dashboard {name}"
+
     return None
+
 
 
 def render_github_mode():
