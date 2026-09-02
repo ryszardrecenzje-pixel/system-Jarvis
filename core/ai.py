@@ -2,6 +2,8 @@
 from actions.codegen import create_python_file, append_to_file, generate_streamlit_app
 from actions.github import git_commit, git_push
 from core.memory import log_interaction, save_memory, load_memory
+from core.planner import analyze_intent, plan_steps
+
 
 def handle_user_input(user_input: str) -> str:
     original_input = user_input
