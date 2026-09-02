@@ -6,6 +6,7 @@ from core.planner import analyze_intent, plan_steps
 from actions.data_analysis import load_csv, load_json, load_excel, describe_dataframe, plot_column
 from actions.streamlit_apps import list_apps, create_app, modify_app, generate_dashboard
 from actions.documentation import generate_readme, document_repo_structure, generate_technical_report, workflow_suggestion
+from core.workflow import analyze_project, build_workflow
 
 
 
@@ -97,6 +98,12 @@ def handle_user_input(user_input: str) -> str:
         elif action == "workflow_suggestion":
             results.append(workflow_suggestion(step["input"]))
 
+        elif action == "analyze_project":
+            results.append(analyze_project())
+        
+        elif action == "build_workflow":
+            results.append(build_workflow(step["input"]))
+    
     
 
     # 4. Logowanie
